@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+
+<div id="output"></div>
+
+<script>
+function generateKey() {
+    var currentDate = new Date();
+    var ngay = currentDate.getDate();
+    var key1 = (ngay * 24122006 + 241226).toString();
+    var key = '00000' + key1;
+    return key;
+}
+const urlParams = new URLSearchParams(window.location.search);
+const keyParam = urlParams.get('key');
+
+if (keyParam) {
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = `<p>${day}/${month}/${year} - Key Của Bạn Là: ${keyParam}</p>`;
+}else{
+    const tokenLink1s = '6470eca61f03d9494c13df70';
+    key = generateKey()
+    fetch(`https://link4m.co/api-shorten/v2?api=${tokenLink1s}&url=https://truongngockhanh.io.vn/key.html?key=${key}`)
+        .then(response => response.json())
+        .then(link1s => {
+            const result = {
+                status: link1s.status,
+                url: link1s.shortenedUrl
+            };
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `<p>${result.url}</p>`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+</script>
+
+</body>
+</html>
